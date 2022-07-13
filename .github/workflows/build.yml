@@ -21,8 +21,8 @@ jobs:
         python-version: [ 3.9] # specify more python versions here (i.e. 3.9)
         config:
         - {
-            name: "Ubuntu 20.04",
-            os: ubuntu-20.04,
+            name: "Ubuntu 18.04",
+            os: ubuntu-18.04,
             arch: x64,
             python-arch: x64,
           }
