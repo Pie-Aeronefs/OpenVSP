@@ -77,10 +77,35 @@ jobs:
       shell: bash
       run:   brew install swig gcc@10
 
-    - name:  Build Linux
+    - name:  Build Debian
       if: runner.os == 'Linux'
       shell: bash
       run:   |
+        mkdir build buildlibs artifacts
+        cd $GITHUB_WORKSPACE/buildlibs
+        cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DVSP_USE_SYSTEM_LIBXML2=true -DVSP_USE_SYSTEM_FLTK=true -DVSP_USE_SYSTEM_GLM=true -DVSP_USE_SYSTEM_GLEW=true -DVSP_USE_SYSTEM_CMINPACK=true -DVSP_USE_SYSTEM_CPPTEST=false ../Libraries
+        make -j2
+        
+        cd $GITHUB_WORKSPACE/build
+        cmake -DCMAKE_BUILD_TYPE=Release -DVSP_CPACK_GEN=DEB -DVSP_LIBRARY_PATH=$GITHUB_WORKSPACE/buildlibs ../src
+        make -j2 package
+        
+        DEBFILE=${GITHUB_WORKSPACE}/build/OpenVSP-*-Linux.deb
+        VSPVER=$(ls $DEBFILE | awk 'BEGIN { FS = "-" } ; { print $2 }')
+        UVER=$(lsb_release -sr)
+        DEPLOY_FILE=${GITHUB_WORKSPACE}/build/OpenVSP-${VSPVER}-Ubuntu-${UVER}_amd64_${GITHUB_SHA}.deb
+        
+        cp $DEBFILE $DEPLOY_FILE
+        cp $DEPLOY_FILE $GITHUB_WORKSPACE/artifacts
+        
+        ls $DEPLOY_FILE && (echo "DEB CREATION SUCCESSFUL" && exit 0) || (echo "DEB CREATION FAILED" && exit 1)
+
+    - name:  Build RPM
+      if: runner.os == 'Linux'
+      shell: bash
+      run:   |
+        sudo apt install docker.io
+        sudo docker create fedora:36
         mkdir build buildlibs artifacts
         cd $GITHUB_WORKSPACE/buildlibs
         cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DVSP_USE_SYSTEM_LIBXML2=true -DVSP_USE_SYSTEM_FLTK=true -DVSP_USE_SYSTEM_GLM=true -DVSP_USE_SYSTEM_GLEW=true -DVSP_USE_SYSTEM_CMINPACK=true -DVSP_USE_SYSTEM_CPPTEST=false ../Libraries
