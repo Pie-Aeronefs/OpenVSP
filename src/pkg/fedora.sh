@@ -16,6 +16,7 @@ dnf install -y cmake libxml2-devel fltk-fluid fltk-devel g++ \
         cminpack-devel glew-devel swig doxygen graphviz texlive-scheme-basic \
         python3-devel
 
+cd $GITHUB_WORKSPACE
 mkdir -p build buildlibs artifacts
 
 cd $GITHUB_WORKSPACE/buildlibs
