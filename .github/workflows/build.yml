@@ -88,7 +88,7 @@ jobs:
         apt-cache policy docker-ce
         sudo apt install docker-ce
         sudo systemctl status docker
-        sudo docker run --rm -v $GITHUB_WORKSPACE:/repo fedora:36 bash /repo/src/pkg/fedora.sh
+        sudo -E docker run --rm -v $GITHUB_WORKSPACE:/repo --env GITHUB_WORKSPACE --env BUILD_TYPE fedora:36 bash /repo/src/pkg/fedora.sh
 
     - name:  Build Windows
       if: runner.os == 'Windows'

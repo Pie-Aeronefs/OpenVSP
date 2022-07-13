@@ -5,7 +5,7 @@
 # them from within a Docker container, so it is
 # more useful to have them here in fedora.sh.
 
-set -e
+set -e -x
 
 env
 
