@@ -43,7 +43,7 @@ jobs:
       shell: bash
       run:   |
         sudo apt-get update
-        sudo apt-get install python3-dev libxml2-dev libfltk1.3-dev fluid libjpeg-dev libglm-dev libcminpack-dev libglew-dev swig doxygen graphviz texlive-latex-base zip
+        sudo echo apt-get install python3-dev libxml2-dev libfltk1.3-dev fluid libjpeg-dev libglm-dev libcminpack-dev libglew-dev swig doxygen graphviz texlive-latex-base zip
 
     - name:  Install Windows
       if: runner.os == 'Windows'
@@ -82,7 +82,8 @@ jobs:
       if: runner.os == 'Linux'
       shell: bash
       run:   |
-        sudo apt install docker.io
+        dpkg -l
+        sudo apt install containerd docker.io
         sudo docker run --rm -v $GITHUB_WORKSPACE:/repo fedora:36 bash /repo/src/pkg/fedora.sh
 
     - name:  Build Windows

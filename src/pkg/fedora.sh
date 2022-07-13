@@ -11,6 +11,11 @@ env
 
 cat /proc/cpuinfo
 
+dnf install -y cmake libxml2-devel fltk-fluid fltk-devel g++ \
+        openjpeg-devel glm-devel \
+        cminpack-devel glew-devel swig doxygen graphviz texlive-scheme-basic \
+        python3-devel
+
 mkdir -p build buildlibs artifacts
 
 cd $GITHUB_WORKSPACE/buildlibs
