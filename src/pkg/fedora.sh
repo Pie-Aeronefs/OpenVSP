@@ -9,6 +9,8 @@ set -e
 
 env
 
+cat /proc/cpuinfo
+
 mkdir -p build buildlibs artifacts
 
 cd $GITHUB_WORKSPACE/buildlibs
