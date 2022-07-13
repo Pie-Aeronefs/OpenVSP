@@ -7,14 +7,14 @@
 
 set -e -x
 
-env
-
-cat /proc/cpuinfo
-
 dnf install -y cmake libxml2-devel fltk-fluid fltk-devel g++ \
         openjpeg-devel glm-devel \
         cminpack-devel glew-devel swig doxygen graphviz texlive-scheme-basic \
         python3-devel
+
+# docker shares the workspace directory into /workspace
+GITHUB_WORKSPACE=/workspace
+export GITHUB_WORKSPACE
 
 cd $GITHUB_WORKSPACE
 mkdir -p build buildlibs artifacts
