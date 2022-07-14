@@ -15,6 +15,11 @@ mkdir -p build buildlibs artifacts
 
 case $1 in
 install)
+    while pgrep dnf
+    do
+        echo another dnf is stll running
+        sleep 1
+    done
     dnf install -y cmake libxml2-devel fltk-fluid fltk-devel g++ \
             openjpeg-devel glm-devel \
             cminpack-devel glew-devel swig doxygen graphviz texlive-scheme-basic \
