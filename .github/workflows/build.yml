@@ -86,11 +86,11 @@ jobs:
         curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
         sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
         sudo apt install docker-ce
-        sudo -E docker create --name f36 -v $GITHUB_WORKSPACE:/workspace fedora:36
-        sudo -E docker exec f36 bash /workspace/src/pkg/fedora.sh init
-        sudo -E docker exec f36 bash /workspace/src/pkg/fedora.sh libs
-        sudo -E docker exec f36 bash /workspace/src/pkg/fedora.sh exe
-        sudo -E docker exec f36 bash /workspace/src/pkg/fedora.sh rpm
+        sudo docker run -d --name f36 -v $GITHUB_WORKSPACE:/workspace fedora:36 bash -c "dnf install -y perl; perl -esleep"
+        sudo docker exec f36 bash /workspace/src/pkg/fedora.sh init
+        sudo docker exec f36 bash /workspace/src/pkg/fedora.sh libs
+        sudo docker exec f36 bash /workspace/src/pkg/fedora.sh exe
+        sudo docker exec f36 bash /workspace/src/pkg/fedora.sh rpm
 
     - name:  Build Windows
       if: runner.os == 'Windows'
