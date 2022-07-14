@@ -21,8 +21,8 @@ jobs:
         python-version: [ 3.9] # specify more python versions here (i.e. 3.9)
         config:
         - {
-            name: "Ubuntu 18.04",
-            os: ubuntu-18.04,
+            name: "Ubuntu 20.04",
+            os: ubuntu-20.04,
             arch: x64,
             python-arch: x64,
           }
@@ -85,10 +85,12 @@ jobs:
         sudo apt install apt-transport-https ca-certificates curl software-properties-common
         curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
         sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
-        apt-cache policy docker-ce
         sudo apt install docker-ce
-        sudo systemctl status docker
-        sudo -E docker run --rm -v $GITHUB_WORKSPACE:/workspace --env BUILD_TYPE fedora:36 bash /workspace/src/pkg/fedora.sh
+        sudo -E docker create --name f36 -v $GITHUB_WORKSPACE:/workspace fedora:36
+        sudo -E docker exec f36 bash /workspace/src/pkg/fedora.sh init
+        sudo -E docker exec f36 bash /workspace/src/pkg/fedora.sh libs
+        sudo -E docker exec f36 bash /workspace/src/pkg/fedora.sh exe
+        sudo -E docker exec f36 bash /workspace/src/pkg/fedora.sh rpm
 
     - name:  Build Windows
       if: runner.os == 'Windows'
