@@ -15,9 +15,10 @@ mkdir -p build buildlibs artifacts
 
 case $1 in
 install)
-    while pgrep dnf
+    # we cannot run two dnf's at once, so wait until the "perl -esleep" starts.
+    while [ -f /wait ]
     do
-        echo another dnf is stll running
+        echo waiting to start running
         sleep 1
     done
     dnf install -y cmake libxml2-devel fltk-fluid fltk-devel g++ \

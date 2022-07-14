@@ -86,7 +86,7 @@ jobs:
         curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
         sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
         sudo apt install docker-ce
-        sudo docker run -d --name f36 -v $GITHUB_WORKSPACE:/workspace fedora:36 bash -c "dnf install -y perl; perl -esleep"
+        sudo docker run -d --name f36 -v $GITHUB_WORKSPACE:/workspace fedora:36 bash -c "touch /wait; dnf install -y perl; rm /wait; perl -esleep"
         sudo docker exec f36 bash /workspace/src/pkg/fedora.sh install
         sudo docker exec f36 bash /workspace/src/pkg/fedora.sh libs
         sudo docker exec f36 bash /workspace/src/pkg/fedora.sh exe
